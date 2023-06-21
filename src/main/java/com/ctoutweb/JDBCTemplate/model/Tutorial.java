@@ -1,6 +1,7 @@
 package com.ctoutweb.JDBCTemplate.model;
 
 import java.util.Date;
+import java.util.Objects;
 
 public class Tutorial {
 	
@@ -117,6 +118,27 @@ public class Tutorial {
 	public String toString() {
 		return "Tutorial [id=" + id + ", title=" + title + ", description=" + description + ", published=" + published
 				+ ", level=" + level + ", createdAt=" + createdAt + ", updatedAt=" + updatedAt + "]";
+	}
+
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(createdAt, description, id, level, published, title, updatedAt);
+	}
+
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Tutorial other = (Tutorial) obj;
+		return Objects.equals(createdAt, other.createdAt) && Objects.equals(description, other.description)
+				&& id == other.id && level == other.level && published == other.published
+				&& Objects.equals(title, other.title) && Objects.equals(updatedAt, other.updatedAt);
 	}
 	
 	
