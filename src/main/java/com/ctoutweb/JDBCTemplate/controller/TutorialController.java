@@ -9,21 +9,21 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import com.ctoutweb.JDBCTemplate.model.Tutorial;
-import com.ctoutweb.JDBCTemplate.service.TutorialService;
+import com.ctoutweb.JDBCTemplate.service.dao.daoImplementation.TutorialDAOImpl;
 
 @RestController
 @RequestMapping("/api/tutorials")
 public class TutorialController {
 	
 	@Autowired
-	TutorialService tutorialService;
+	TutorialDAOImpl tutorialDAOImpl;
 	
 	@GetMapping
 	public ResponseEntity<List<Tutorial>> getAllTutorials() {
 		try {			
 			// List<Tutorial> tutorials = new ArrayList<Tutorial>();
 			// tutorialService.findAll().forEach(tutorials::add);
-			List<Tutorial> tutorials = tutorialService.findAll();
+			List<Tutorial> tutorials = tutorialDAOImpl.findAll();
 			
 			if(tutorials.isEmpty()) {
 				return new ResponseEntity<>(tutorials, HttpStatus.NO_CONTENT);
@@ -40,7 +40,7 @@ public class TutorialController {
 	@PostMapping
 	public ResponseEntity<String> addTutorials(@RequestBody Tutorial tutorial) {
 		try {			
-			tutorialService.save(tutorial);			
+			tutorialDAOImpl.save(tutorial);			
 			return new ResponseEntity<>("ok", HttpStatus.CREATED);
 			
 		} catch (Exception e) {			
@@ -53,7 +53,7 @@ public class TutorialController {
 	public ResponseEntity<Tutorial> getTutorialById(@PathVariable("id") Long id) {
 		try {
 			
-			Tutorial tutorial = tutorialService.findById(id);
+			Tutorial tutorial = tutorialDAOImpl.findById(id);
 			
 			if(tutorial == null) {
 				return new ResponseEntity<>(HttpStatus.NO_CONTENT);
@@ -72,7 +72,7 @@ public class TutorialController {
 		try {
 			System.out.println(id);
 			
-			int rowAffected = tutorialService.update(id, tutorial);
+			int rowAffected = tutorialDAOImpl.update(id, tutorial);
 			
 			if(rowAffected == 0) {
 				return new ResponseEntity<>("no update", HttpStatus.NO_CONTENT);
@@ -88,7 +88,7 @@ public class TutorialController {
 
 	@DeleteMapping("/{id}")
 	public ResponseEntity<String>DeleteOneTutorial(@PathVariable("id") Long id) {
-		int rowAffected = tutorialService.deleteById(id);
+		int rowAffected = tutorialDAOImpl.deleteById(id);
 		
 		if(rowAffected == 0) {
 			return new ResponseEntity<>("no update", HttpStatus.NO_CONTENT);
@@ -99,7 +99,7 @@ public class TutorialController {
 
 	@DeleteMapping
 	public ResponseEntity<String> DeleteAll(){
-		int rows = tutorialService.deleteAll();
+		int rows = tutorialDAOImpl.deleteAll();
 		
 		if(rows > 0) {
 			return new ResponseEntity<>("delete ok", HttpStatus.NO_CONTENT);

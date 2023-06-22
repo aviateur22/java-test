@@ -1,32 +1,25 @@
-package com.ctoutweb.JDBCTemplate.service;
+package com.ctoutweb.JDBCTemplate.service.dao.daoImplementation;
 
-import java.util.Map;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
 import java.util.ArrayList;
-import java.lang.reflect.Array;
 
-
+import java.util.Date;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.IncorrectResultSizeDataAccessException;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.namedparam.*;
+import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
-import org.springframework.jdbc.support.GeneratedKeyHolder;
-import org.springframework.jdbc.support.KeyHolder;
+import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Service;
 
 import com.ctoutweb.JDBCTemplate.model.Tutorial;
-import com.ctoutweb.JDBCTemplate.repository.TutorialRepository;
+import com.ctoutweb.JDBCTemplate.service.dao.TutorialDAO;
 
 @Service
-public class TutorialService implements TutorialRepository {
+public class TutorialDAOImpl implements TutorialDAO {
 	
 	@Autowired
 	JdbcTemplate jdbcTemplate;
@@ -36,12 +29,9 @@ public class TutorialService implements TutorialRepository {
 
 	
 	MapSqlParameterSource mSQLParameterSource = new MapSqlParameterSource();
-	
-	
-	
+
 	@Override
-	public int save(Tutorial tutorial) {//		
-//			
+	public int save(Tutorial tutorial) {
 		SqlParameterSource sqlParameterSource = new BeanPropertySqlParameterSource(tutorial);
 		
 		String query = "INSERT INTO tutorials (title, description, level, published, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?)";
@@ -50,12 +40,10 @@ public class TutorialService implements TutorialRepository {
 	
 		return jdbcTemplate.update(query, tutorial.getTitle(), tutorial.getDescription(), tutorial.getLevel(), tutorial.isPublished(), createdDate, createdDate);
 		
-	
 	}
 
 	@Override
 	public int update(Long id, Tutorial tutorial) {
-		
 		Tutorial findTutorialById = findById(id);		
 		
 		if(findTutorialById == null) {
