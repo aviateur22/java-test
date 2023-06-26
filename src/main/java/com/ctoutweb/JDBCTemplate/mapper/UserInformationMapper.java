@@ -5,7 +5,7 @@ import java.util.function.Function;
 import org.springframework.stereotype.Service;
 
 import com.ctoutweb.JDBCTemplate.dto.UserInformationDTO;
-import com.ctoutweb.JDBCTemplate.model.User;
+import com.ctoutweb.JDBCTemplate.model.user.User;
 
 
 @Service

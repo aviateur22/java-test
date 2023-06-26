@@ -15,11 +15,11 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Service;
 
-import com.ctoutweb.JDBCTemplate.model.User;
 import com.ctoutweb.JDBCTemplate.service.dao.UserDAO;
 
 import com.ctoutweb.JDBCTemplate.dto.UserInformationDTO;
 import com.ctoutweb.JDBCTemplate.mapper.UserInformationMapper;
+import com.ctoutweb.JDBCTemplate.model.user.User;
 
 @Service
 public class UserDAOImpl implements UserDAO {

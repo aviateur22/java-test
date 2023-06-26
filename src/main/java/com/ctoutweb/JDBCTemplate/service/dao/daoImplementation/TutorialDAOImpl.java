@@ -1,9 +1,10 @@
 package com.ctoutweb.JDBCTemplate.service.dao.daoImplementation;
 
 import java.util.ArrayList;
-
 import java.util.Date;
 import java.util.List;
+
+import javax.swing.plaf.basic.BasicComboBoxUI.KeyHandler;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.IncorrectResultSizeDataAccessException;
@@ -13,6 +14,8 @@ import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Service;
 
 import com.ctoutweb.JDBCTemplate.model.Tutorial;
@@ -33,13 +36,16 @@ public class TutorialDAOImpl implements TutorialDAO {
 	@Override
 	public int save(Tutorial tutorial) {
 		SqlParameterSource sqlParameterSource = new BeanPropertySqlParameterSource(tutorial);
-		
+		KeyHolder keyHolder = new GeneratedKeyHolder();
 		String query = "INSERT INTO tutorials (title, description, level, published, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?)";
 		
 		Date createdDate = new Date();			
 	
-		return jdbcTemplate.update(query, tutorial.getTitle(), tutorial.getDescription(), tutorial.getLevel(), tutorial.isPublished(), createdDate, createdDate);
+		int row =  jdbcTemplate.update(query,
+				new Object[] {tutorial.getTitle(), tutorial.getDescription(), tutorial.getLevel(), tutorial.isPublished(), createdDate, createdDate});
 		
+		//System.out.println(keyHolder);
+		return row;
 	}
 
 	@Override
@@ -59,6 +65,7 @@ public class TutorialDAOImpl implements TutorialDAO {
 		try {
 			System.out.println(jdbcTemplate.queryForObject("SELECT * FROM tutorials WHERE id=?", BeanPropertyRowMapper.newInstance(Tutorial.class), id));
 			return jdbcTemplate.queryForObject("SELECT * FROM tutorials WHERE id=?", BeanPropertyRowMapper.newInstance(Tutorial.class), id);
+			
 			
 		} catch (IncorrectResultSizeDataAccessException e) {
 			return null;

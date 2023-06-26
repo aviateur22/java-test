@@ -2,7 +2,7 @@ package com.ctoutweb.JDBCTemplate.service.dao;
 
 import java.util.List;
 import com.ctoutweb.JDBCTemplate.dto.UserInformationDTO;
-import com.ctoutweb.JDBCTemplate.model.User;
+import com.ctoutweb.JDBCTemplate.model.user.User;
 
 public interface UserDAO {
 	public int save(User user);

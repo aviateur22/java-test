@@ -1,16 +1,66 @@
-package com.ctoutweb.JDBCTemplate.model;
+package com.ctoutweb.JDBCTemplate.model.user;
 
+import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 import java.util.Objects;
 
-public class User {
-	
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
+public class User implements UserDetails {
+	private Long id;
 	private String login;
 	private String name;
 	private String email;
 	private String password;
 	private Date createdAt;
-	private Date updatedAt;
+	private Date updatedAt;	
+	private Role role;
+	
+	@Override
+	public Collection<? extends GrantedAuthority> getAuthorities() {
+		// TODO Auto-generated method stub
+		return List.of(new SimpleGrantedAuthority(role.name()));
+	}
+	
+	@Override
+	public String getUsername() {
+		return email;
+	}
+	
+	@Override
+	public boolean isAccountNonExpired() {
+		// TODO Auto-generated method stub
+		return true;
+	}
+	
+	@Override
+	public boolean isAccountNonLocked() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+	
+	@Override
+	public boolean isCredentialsNonExpired() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+	
+	@Override
+	public boolean isEnabled() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+	
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
 	
 	/**
 	 * @return the login
@@ -68,6 +118,14 @@ public class User {
 		this.password = password;
 	}
 
+	public Role getRole() {
+		return role;
+	}
+
+	public void setRole(Role role) {
+		this.role = role;
+	}
+
 	/**
 	 * @return the createdAt
 	 */
@@ -120,5 +178,4 @@ public class User {
 				&& Objects.equals(login, other.login) && Objects.equals(password, other.password)
 				&& Objects.equals(updatedAt, other.updatedAt);
 	}
-
 }
